@@ -25,7 +25,7 @@
   <files>
     <!--<file src=".\bin\$configuration$\SomeNonNuGetDependency.*" target="lib\net452" />-->  <!-- $(TargetDir)\bin\$(ConfigurationName)\SomeSrcDependency.* -->
     <!--<file src="..\SomeNonNuGetDependency\**\*.cs" target="src" />-->  <!-- $(SolutionDir)\SomeSrcDependency\**\*.cs -->
-    <file src=".\License.txt" target="" />  <!-- $(ProjectDir)\License.txt and due to name automatically sets target="content" and line isn't necessary if any other files specified -->
-    <!--<file src="..\ReadMe.txt" target="" />-->  <!-- $(SolutionDir)\ReadMe.txt -->
+    <file src="..\License.txt" target="" />  <!-- $(ProjectDir)\License.txt and due to name automatically sets target="content" and line isn't necessary if any other files specified -->
+    <file src="..\README.md" target="" />  <!-- $(SolutionDir)\README.md -->
   </files>
 </package>
