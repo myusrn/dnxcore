@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!--<id>MyUsrn.Dnx.Core</id>-->  <!-- keep constant to support updates even though title may have changed -->
+    <id>$id$</id>  <!-- use AssemblyTitle, keep constant to support updates even though title may have changed -->
+    <version>$version$</version>  <!-- use AssemblyInformationalVersion to specify three part major.minor.patch vs AssemblyVersion four part major.minor.build.revision -->
+    <title>MyUsername .NET Execution Environment Core</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.opensource.org/licenses/ms-pl/</licenseUrl>
+    <projectUrl>https://mysawestus.blob.core.windows.net/public/MyClassLibrary.html</projectUrl>
+    <iconUrl>https://mysawestus.blob.core.windows.net/public/MyClassLibrary.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Added feature Xyz and updated feature Abc in this release of the package.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>tag1 tag2 tag3</tags>
+    <!--<dependencies>
+      <dependency id="SomeOtherPackage" version="3.2.1" />
+    </dependencies>-->
+    <!--<frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.NotAvailableByDefault" targetFramework=".NETFramework4.52" />
+    </frameworkAssemblies>-->
+  </metadata>
+  <files>
+    <!--<file src=".\bin\$configuration$\SomeNonNuGetDependency.*" target="lib\net452" />-->  <!-- $(TargetDir)\bin\$(ConfigurationName)\SomeSrcDependency.* -->
+    <!--<file src="..\SomeNonNuGetDependency\**\*.cs" target="src" />-->  <!-- $(SolutionDir)\SomeSrcDependency\**\*.cs -->
+    <file src=".\License.txt" target="" />  <!-- $(ProjectDir)\License.txt and due to name automatically sets target="content" and line isn't necessary if any other files specified -->
+    <!--<file src="..\ReadMe.txt" target="" />-->  <!-- $(SolutionDir)\ReadMe.txt -->
+  </files>
+</package>
