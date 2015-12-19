@@ -39,5 +39,5 @@ move /y %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg %temp%\packages\MyUsrn.Dnx.C
 or for localhost nuget package dependency update every time you build the following project PostBuildEvent setting:  
 set nugetExe=&lt;some path not currently included system path environment variable&gt;\NuGet.exe  
 if /i "$(BuildingInsideVisualStudio)" == "true" if /i "$(ConfigurationName)" == "debug" (  
-  %nugetExe% pack $(ProjectPath) -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages  
+&nbsp;&nbsp;%nugetExe% pack $(ProjectPath) -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages  
 )  
