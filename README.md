@@ -1,8 +1,9 @@
 # dnxcore
 
+
 This repo contains asp.net execution environment core helper types that i bundle into a nuget package for easy consumption and updating.
 
-Haven't decided yet if i'll use [nuget.org](<http://nuget.org>) publicly accessible or a visual studio team services [ vsts, pka visual studio online / vso ] 
+Haven't decided yet if i'll use [nuget.org](http://nuget.org) publicly accessible or a visual studio team services [ vsts, pka visual studio online / vso ] 
 everyone in account accessible package feed.
 
 - - -
@@ -23,12 +24,11 @@ public IEnumerable<string> Get() { . . . }
 public IEnumerable<string> GetV2() { . . . }
   
 ### examples of using azure redis cache based TokenCache 
-tbd
+tbd    
 
-
+- - - 
 
 #### solution notes 
-- - - 
 continuous integration [ or delivery ] nuget package generation is carried out using vsts nuget package & publish tasks
 
 localhost nuget package generation is carried out using following command:  
