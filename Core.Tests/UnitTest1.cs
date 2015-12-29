@@ -20,7 +20,7 @@ namespace Core.Tests
         //string resource = "https://microsoft.onmicrosoft.com/MyAppSvc"; // aka appId for myappsvc
         string resource = "https://microsoft.onmicrosoft.com/MyWebApi"; // aka appId for mywebapi
         string aadGraphResource = "https://graph.windows.net/"; // aka appId for aad graph api
-        string msftGraphResource = "https://graph.microsoft.com/"; // aka appId for msft graph api
+        //string msftGraphResource = "https://graph.microsoft.com/"; // aka appId for msft graph api
         string testUserId = ConfigurationManager.AppSettings["ida:TestUserId"];
 
         [TestMethod]
@@ -46,7 +46,9 @@ namespace Core.Tests
             }
 
             var jwt = GetJsonWebToken(result.AccessToken);
-            var oid = jwt["body"]["oid"].Value<string>();
+            var actual = jwt["body"]["oid"].Value<string>();
+            var expected = testUserId;
+            Assert.IsTrue(actual == expected);
         }
 
         [TestMethod]
@@ -54,11 +56,20 @@ namespace Core.Tests
         {
             AuthenticationContext acWba = new AuthenticationContext(authority, new AzRedisTokenCache(testUserId));
             //var redirectUri = new Uri("https://myappsvc.azurewebsites.net/");
-            var redirectUri = new Uri("https://mywebapp.azurewebsites.net/");
+            var redirectUri = new Uri("https://localhost:44300/"); // has to match what was reply url when access code was acquired
             ClientCredential wbaCredential = new ClientCredential(clientId, appKey);
 
-            //AuthenticationResult result = acWba.AcquireTokenByAuthorizationCodeAsync(code, redirectUri, credential, aadGraphResource);
-            //AuthenticationResult result = acWba.AcquireTokenByRefreshTokenAsync(refreshToken, redirectUri, credential, aadGraphResource);
+            //var code = ConfigurationManager.AppSettings["ida:TestUserAccessCode"];
+            //AuthenticationResult result = await acWba.AcquireTokenByAuthorizationCodeAsync(code, redirectUri, wbaCredential, aadGraphResource);
+
+            var refreshToken = ConfigurationManager.AppSettings["ida:TestUserRefreshToken"];
+            //AuthenticationResult result = await acWba.AcquireTokenByRefreshTokenAsync(refreshToken, clientId); // (400) Bad Request. AADSTS90014: The request body must contain the following parameter: 'client_secret or client_assertion'.
+            AuthenticationResult result = await acWba.AcquireTokenByRefreshTokenAsync(refreshToken, wbaCredential);
+
+            var jwt = GetJsonWebToken(result.AccessToken);
+            var actual = jwt["body"]["oid"].Value<string>();
+            var expected = testUserId;
+            Assert.IsTrue(actual == expected);
         }
 
         /// <summary>
@@ -117,17 +128,16 @@ namespace Core.Tests
 
             StringBuilder s = new StringBuilder(arg);
 
-            const char Base64UrlCharacter62 = '-', Base64Character62 = '+';
-            s.Replace(Base64UrlCharacter62, Base64Character62);
+// the following protects us from Convert.FromBase64String() throwing "System.FormatException: The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters."
+// which typically arises when processing token signature part and not the header or bodys parts
+            const char Base64UrlCharacter62 = '-', Base64Character62 = '+'; s.Replace(Base64UrlCharacter62, Base64Character62);
+            const char Base64UrlCharacter63 = '_', Base64Character63 = '/'; s.Replace(Base64UrlCharacter63, Base64Character63);
 
-            const char Base64UrlCharacter63 = '_', Base64Character63 = '/';
-            s.Replace(Base64UrlCharacter63, Base64Character63);
-
+// the following protects us from Convert.FromBase64String() throwing "System.FormatException: Invalid length for a Base-64 char array or string."
+// which typically arises when processing token body part and not the header or signature parts
             const char Base64PadCharacter = '=';
             int pad = s.Length % 4;
             s.Append(Base64PadCharacter, (pad == 0) ? 0 : 4 - pad);
-// if we don't do the above then Convert.FromBase64String throws "System.FormatException: Invalid length for a Base-64 char array or string."
-// typically arising when processing token body part and not the header or signature parts
 
             return Convert.FromBase64String(s.ToString());
         }

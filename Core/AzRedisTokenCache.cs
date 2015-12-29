@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,6 @@ namespace MyUsrn.Dnx.Core
     public class AzRedisTokenCache : TokenCache
     {
         static readonly object fileLock = new object();
-        string userId = string.Empty;
         string cacheId = string.Empty;
         static ConnectionMultiplexer connection = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["CacheConnection"]);
         //static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() => {
@@ -31,42 +31,43 @@ namespace MyUsrn.Dnx.Core
         
         public AzRedisTokenCache(string userId)
         {
-            this.userId = userId;
+            this.cacheId = userId;
 
             this.AfterAccess = AfterAccessNotification;
             this.BeforeAccess = BeforeAccessNotification;
-
-            //Debug.Assert(cache.IsConnected());
-            var userIdTokenCache = cache.StringGet(userId);
-            var userIdTokenCacheBytes = Encoding.UTF8.GetBytes(cache.StringGet(userIdTokenCache.ToString()));
-            this.Deserialize(userIdTokenCacheBytes);
-            //this.Deserialize((userIdTokenCacheBytes == null) ? null : userIdTokenCacheBytes);
+            Load();        
         }
 
-        //public void Load()
-        //{
-        //    lock (fileLock)
-        //    {
-        //        this.Deserialize((byte[])HttpContext.Current.Session[cacheId]);
-        //    }
-        //}
-
-        public void Persist()
+        public void Load()
         {
             lock (fileLock)
             {
-                // reflect changes in the persistent store
-                HttpContext.Current.Session[cacheId] = this.Serialize();
-                // once the write operation took place, restore the HasStateChanged bit to false
-                this.HasStateChanged = false;
+                Debug.Assert(cache != null && cache.IsConnected(cacheId));
+                var userIdTokenCache = cache.StringGet(cacheId);
+                if (userIdTokenCache.HasValue)
+                {
+                    //JsonConvert.DeserializeObject<AzRedisTokenCache>(userIdTokenCache);
+                    //this.Deserialize(Encoding.UTF8.GetBytes(userIdTokenCache.ToString()));
+                    this.Deserialize((byte[])userIdTokenCache);
+                }
             }
+        }
+
+        public void Persist()
+        {
+            // reflect changes in the persistent store
+            //cache.StringSet(this.userId, JsonConvert.SerializeObject(this));
+            //cache.StringSet(this.cacheId, Encoding.UTF8.GetString(this.Serialize()));
+            cache.StringSet(this.cacheId, this.Serialize());
+            // once the write operation took place, restore the HasStateChanged bit to false
+            this.HasStateChanged = false;
         }
 
         // Empties the persistent store.
         public override void Clear()
         {
             base.Clear();
-            System.Web.HttpContext.Current.Session.Remove(cacheId);
+            cache.KeyDelete(cacheId);
         }
 
         public override void DeleteItem(TokenCacheItem item)
@@ -75,12 +76,14 @@ namespace MyUsrn.Dnx.Core
             Persist(); 
         }
 
-        // Triggered right before ADAL needs to access the cache.
-        // Reload the cache from the persistent store in case it changed since the last access.
-        // This is your chance to update the in-memory copy from the DB, if the in-memory version is stale
+        // Triggered right before ADAL needs to access the cache.        
         void BeforeAccessNotification(TokenCacheNotificationArgs args)
         {
-            //Load();
+            // Reload the cache from the persistent store, if there is a case where it could have changed since the last access, e.g. like NaiveCache.cs
+            Load();
+
+            // or If its deemed more efficient check if in-memory and persistent store versions are the same and only reload from persistent store when 
+            // that is not the case, e.g. DbTokenCache.cs
         }
 
         // Triggered right after ADAL accessed the cache.
