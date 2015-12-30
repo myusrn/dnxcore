@@ -3,8 +3,8 @@
 
 This repo contains asp.net execution environment core helper types that i bundle into a nuget package for easy consumption and updating.
 
-Haven't decided yet if i'll use [nuget.org](http://nuget.org) publicly accessible or a visual studio team services [ vsts, pka visual studio online / vso ] 
-everyone in account accessible package feed.
+Using [nuget.org](http://nuget.org/packages/MyUsrn.Dnx.Core/) publicly accessible package feed versus a visual studio team services [vsts], pka visual studio online [vso] 
+everyone in account only accessible package feed.
 
 - - -
 
@@ -33,10 +33,10 @@ continuous integration [ or delivery ] nuget package generation is carried out u
 
 localhost nuget package generation is carried out using following command:  
 nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages [ -Prop Configuration=$(ConfigurationName) ]  
-and for reviewing package output, along with forcuing use of symbols package output use following command:  
+and for reviewing package output, along with forcing use of symbols package output use following command:  
 move /y %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg.zip  
 
-or for localhost nuget package dependency update every time you build the following project PostBuildEvent setting:  
+or to enable localhost nuget package dependency update every time you build the following project PostBuildEvent setting:  
 set nugetExe=&lt;some path not currently included system path environment variable&gt;\NuGet.exe  
 if /i "$(BuildingInsideVisualStudio)" == "true" if /i "$(ConfigurationName)" == "debug" (  
 &nbsp;&nbsp;%nugetExe% pack $(ProjectPath) -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages  
