@@ -8,9 +8,9 @@ everyone in account only accessible package feed.
 
 - - -
 
-So far i'm looking to have this package include:
+So far this package includes:
 
-  * a RouteExAttribute to enable use of query string parameter, in addition to oob provided request url, based versioning support
+  * a RouteExAttribute implementation to enable use of query string parameter, in addition to out of the box [oob] provided request url, based web api versioning support
 
   * an azure redis cache based TokenCache implemenation to facilitate openid connect [oidc] and on-behalf of token caching in web apps running across multiple servers
 
@@ -24,9 +24,10 @@ public IEnumerable<string> Get() { . . . }
 public IEnumerable<string> GetV2() { . . . }
   
 ### examples of using azure redis cache based TokenCache 
-var authority = "https://login.microsoftonline.com/myaadtenant.onmicrosoft.com"
-var userId = context.AuthenticationTicket.Identity.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-AuthenticationContext acWebApp = new AuthenticationContext(authority, new AzRedisTokenCache(userId)); 
+var authority = "https://login.microsoftonline.com/myaadtenant.onmicrosoft.com"  
+var userId = context.AuthenticationTicket.Identity.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;  
+AuthenticationContext acWebApp = new AuthenticationContext(authority, new AzRedisTokenCache(userId));    
+<br />
 
 - - - 
 
