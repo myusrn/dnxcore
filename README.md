@@ -24,15 +24,17 @@ public IEnumerable<string> Get() { . . . }
 public IEnumerable<string> GetV2() { . . . }
   
 ### examples of using azure redis cache based TokenCache 
-tbd    
+var authority = "https://login.microsoftonline.com/myaadtenant.onmicrosoft.com"
+var userId = context.AuthenticationTicket.Identity.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+AuthenticationContext acWebApp = new AuthenticationContext(authority, new AzRedisTokenCache(userId)); 
 
 - - - 
 
 #### solution notes 
-continuous integration [ or delivery ] nuget package generation is carried out using vsts nuget package & publish tasks
+continuous integration [ or delivery ] nuget package generation is carried out using vsts hosted build and release management nuget package & publish tasks
 
 localhost nuget package generation is carried out using following command:  
-nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages [ -Prop Configuration=$(ConfigurationName) ]  
+nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages [ -Prop Configuration=Release ]  
 and for reviewing package output, along with forcing use of symbols package output use following command:  
 move /y %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg.zip  
 
@@ -41,3 +43,12 @@ set nugetExe=&lt;some path not currently included system path environment variab
 if /i "$(BuildingInsideVisualStudio)" == "true" if /i "$(ConfigurationName)" == "debug" (  
 &nbsp;&nbsp;%nugetExe% pack $(ProjectPath) -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages  
 )  
+
+localhost nuget package publishing is carried out using following command:  
+nuget setApiKey <nuget.org/symbolsource.org apikey>
+nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
+where if a .symbols.nupkg is found will also execute nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg [ -Source https://nuget.smbsrc.net/ ]
+where nuget.smbsrc.net is the feed url for symbolsource.org packages
+
+or localhost nuget package publishing, to vsts account feeed, is carried out using following command:  
+nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg -Source https://<account>.pkgs.visualstudio.com/DefaultCollection/_packaging/<feed>/nuget/v3/index.json -ApiKey VSTS  

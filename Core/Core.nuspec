@@ -4,15 +4,15 @@
     <!--<id>MyUsrn.Dnx.Core</id>-->  <!-- keep constant to support updates even though title may have changed -->
     <id>$id$</id>  <!-- use AssemblyTitle, keep constant to support updates even though title may have changed -->
     <version>$version$</version>  <!-- use AssemblyInformationalVersion to specify three part major.minor.patch vs AssemblyVersion four part major.minor.build.revision -->
-    <title>MyUsername .NET Execution Environment Core</title>
+    <title>myusrn asp.net execution environment core helper types</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <licenseUrl>http://www.opensource.org/licenses/ms-pl/</licenseUrl>
-    <projectUrl>https://mysawestus.blob.core.windows.net/public/MyClassLibrary.html</projectUrl>
-    <iconUrl>https://mysawestus.blob.core.windows.net/public/MyClassLibrary.png</iconUrl>
+    <projectUrl>https://github.com/myusrn/dnxcore</projectUrl>
+    <iconUrl>https://avatars0.githubusercontent.com/u/3043446?v=3&amp;u=b63d6871b7b2a6ddf1262d72409ba6d31a03879c&amp;s=140</iconUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added feature Xyz and updated feature Abc in this release of the package.</releaseNotes>
+    <releaseNotes>Added RouteEx and Azure Redis Token Cache features in this release of the package.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>tag1 tag2 tag3</tags>
     <!--<dependencies>
