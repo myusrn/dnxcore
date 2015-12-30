@@ -36,7 +36,7 @@ continuous integration [ or delivery ] nuget package generation is carried out u
 localhost nuget package generation is carried out using following command:  
 nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages [ -Prop Configuration=Release ]  
 and for reviewing package output, along with forcing use of symbols package output use following command:  
-move /y %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg.zip  
+move /y %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg.zip
 
 or to enable localhost nuget package dependency update every time you build the following project PostBuildEvent setting:  
 set nugetExe=&lt;some path not currently included system path environment variable&gt;\NuGet.exe  
