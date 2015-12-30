@@ -46,9 +46,9 @@ if /i "$(BuildingInsideVisualStudio)" == "true" if /i "$(ConfigurationName)" == 
 
 localhost nuget package publishing is carried out using following command:  
 nuget setApiKey <nuget.org/symbolsource.org apikey>
-nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
-where if a .symbols.nupkg is found will also execute nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg [ -Source https://nuget.smbsrc.net/ ]
-where nuget.smbsrc.net is the feed url for symbolsource.org packages
+nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
+where presence of symbols.nupkg will cause above to also execute nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.symbols.nupkg [ -Source https://nuget.smbsrc.net/ ]
+where https://nuget.smbsrc.net/ is the feed url for symbolsource.org packages
 
 or localhost nuget package publishing, to vsts account feeed, is carried out using following command:  
-nuget push %temp%\packages\MyUsrn.Dnx.Core.1.0.0.nupkg -Source https://<account>.pkgs.visualstudio.com/DefaultCollection/_packaging/<feed>/nuget/v3/index.json -ApiKey VSTS  
+nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.symbols.nupkg -Source https://<account>.pkgs.visualstudio.com/DefaultCollection/_packaging/<feed>/nuget/v3/index.json -ApiKey VSTS  
