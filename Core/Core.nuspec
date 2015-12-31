@@ -11,10 +11,10 @@
     <projectUrl>https://github.com/myusrn/dnxcore</projectUrl>
     <iconUrl>https://avatars0.githubusercontent.com/u/3043446?v=3&amp;u=b63d6871b7b2a6ddf1262d72409ba6d31a03879c&amp;s=140</iconUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$ description.</description>
-    <releaseNotes>Added RouteEx and Azure Redis Token Cache features in this release of the package.</releaseNotes>
+    <description>$description$, where Dnx stands for [Asp].Net Execution Environment.</description>
+    <releaseNotes>Updated package title, description, tags and changed target to 4.5 instead of 4.5.2 so could be used in older asp.net web app/api projects.</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>tag1 tag2 tag3</tags>
+    <tags>Dnx Route TokenCache</tags>
     <!--<dependencies>
       <dependency id="SomeOtherPackage" version="3.2.1" />
     </dependencies>-->

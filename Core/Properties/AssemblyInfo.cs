@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MyUsrn.Dnx.Core")]
-[assembly: AssemblyDescription("MyUsername .NET Execution Environment Core")]
+[assembly: AssemblyDescription("MyUsrn Dnx Core Library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("My Username")]
 [assembly: AssemblyProduct("MyUsrn.Dnx.Core")]
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.2.0")]
-[assembly: AssemblyFileVersion("1.0.2.0")]
-[assembly: AssemblyInformationalVersion("1.0.2")]  // used by nuspec $version$ replacement token for three part major.minor.patch vs four part major.minor.build.revision -->
+[assembly: AssemblyVersion("1.0.3.0")]
+[assembly: AssemblyFileVersion("1.0.3.0")]
+[assembly: AssemblyInformationalVersion("1.0.3")]  // used by nuspec $version$ replacement token for three part major.minor.patch vs four part major.minor.build.revision -->

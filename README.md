@@ -35,7 +35,7 @@ AuthenticationContext acWebApp = new AuthenticationContext(authority, new AzRedi
 continuous integration [ or delivery ] nuget package generation is carried out using vsts hosted build and release management nuget package & publish tasks
 
 localhost nuget package generation is carried out using following command:  
-nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages [ -Prop Configuration=Release ]  
+nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages -Prop Configuration=Release
 and for reviewing package output, along with forcing use of symbols package output use following command:  
 move /y %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg.zip
 
