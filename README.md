@@ -17,11 +17,11 @@ So far this package includes:
 ### examples of using RouteExAttribute
 // GET api/values or api/v1.0/values or api/values?api-version=1.0  
 [Route("api/v1.0/values"), RouteEx("api/values", "1.0")]  
-public IEnumerable<string> Get() { . . . }  
+public IEnumerable&lt;string&gt; Get() { . . . }  
   
 // GET api/v2.0/values or api/values?api-version=2.0  
 [Route("api/v2.0/values"), RouteEx("api/values", "2.0")]  
-public IEnumerable<string> GetV2() { . . . }
+public IEnumerable&lt;string&gt; GetV2() { . . . }
   
 ### examples of using azure redis cache based TokenCache 
 var authority = "https://login.microsoftonline.com/myaadtenant.onmicrosoft.com"  
@@ -37,7 +37,7 @@ continuous integration [ or delivery ] nuget package generation is carried out u
 localhost nuget package generation is carried out using following command:  
 nuget pack Core\Core.csproj -IncludeReferencedProjects -Symbols -OutputDirectory %temp%\packages -Prop Configuration=Release  
 and for reviewing package output, along with forcing use of symbols package output use following command:  
-move /y %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg.zip
+move /y %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.nupkg %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.nupkg.zip
 
 or to enable localhost nuget package dependency update every time you build the following project PostBuildEvent setting:  
 set nugetExe=&lt;some path not currently included system path environment variable&gt;\NuGet.exe  
@@ -46,10 +46,10 @@ if /i "$(BuildingInsideVisualStudio)" == "true" if /i "$(ConfigurationName)" == 
 )  
 
 localhost nuget package publishing is carried out using following command:  
-nuget setApiKey <nuget.org/symbolsource.org apikey>
-nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
-where presence of symbols.nupkg will cause above to also execute nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.symbols.nupkg [ -Source https://nuget.smbsrc.net/ ]
+nuget setApiKey &lt;nuget.org/symbolsource.org apikey&gt;
+nuget push %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
+where presence of symbols.nupkg will cause above to also execute nuget push %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.symbols.nupkg [ -Source https://nuget.smbsrc.net/ ]
 where https://nuget.smbsrc.net/ is the feed url for symbolsource.org packages
 
 or localhost nuget package publishing, to vsts account feeed, is carried out using following command:  
-nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.symbols.nupkg -Source https://<account>.pkgs.visualstudio.com/DefaultCollection/_packaging/<feed>/nuget/v3/index.json -ApiKey VSTS  
+nuget push %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.symbols.nupkg -Source https://&lt;account&gt;.pkgs.visualstudio.com/DefaultCollection/_packaging/&lt;feed&gt;/nuget/v3/index.json -ApiKey VSTS  
