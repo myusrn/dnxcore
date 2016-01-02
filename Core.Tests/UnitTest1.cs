@@ -59,12 +59,14 @@ namespace Core.Tests
             var redirectUri = new Uri("https://localhost:44300/"); // has to match what was reply url when access code was acquired
             ClientCredential wbaCredential = new ClientCredential(clientId, appKey);
 
-            //var code = ConfigurationManager.AppSettings["ida:TestUserAccessCode"];
-            //AuthenticationResult result = await acWba.AcquireTokenByAuthorizationCodeAsync(code, redirectUri, wbaCredential, aadGraphResource);
+            // acquire using access code triggers a TokenCache update and persist
+            var code = ConfigurationManager.AppSettings["ida:TestUserAccessCode"];
+            AuthenticationResult result = await acWba.AcquireTokenByAuthorizationCodeAsync(code, redirectUri, wbaCredential, aadGraphResource);
 
-            var refreshToken = ConfigurationManager.AppSettings["ida:TestUserRefreshToken"];
+            // acquire using refresh token does not trigger a TokenCache update and persist
+            //var refreshToken = ConfigurationManager.AppSettings["ida:TestUserRefreshToken"];
             //AuthenticationResult result = await acWba.AcquireTokenByRefreshTokenAsync(refreshToken, clientId); // (400) Bad Request. AADSTS90014: The request body must contain the following parameter: 'client_secret or client_assertion'.
-            AuthenticationResult result = await acWba.AcquireTokenByRefreshTokenAsync(refreshToken, wbaCredential);
+            //AuthenticationResult result = await acWba.AcquireTokenByRefreshTokenAsync(refreshToken, wbaCredential);
 
             var jwt = GetJsonWebToken(result.AccessToken);
             var actual = jwt["body"]["oid"].Value<string>();

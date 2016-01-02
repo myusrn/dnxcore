@@ -20,15 +20,15 @@ namespace MyUsrn.Dnx.Core
 
     public class AzRedisTokenCache : TokenCache
     {
-        static readonly object fileLock = new object();
+        //static readonly object lockObject = new object(); // not necessary in case of redis which handles multi-client access for you
         string cacheId = string.Empty;
         static ConnectionMultiplexer connection = ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["CacheConnection"]);
+        static IDatabase cache = connection.GetDatabase();
         //static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(() => {
         //    return ConnectionMultiplexer.Connect(ConfigurationManager.AppSettings["CacheConnection"]);
         //});
         //ConnectionMultiplexer connection = lazyConnection.Value;
-        static IDatabase cache = connection.GetDatabase();
-        
+
         public AzRedisTokenCache(string userId)
         {
             this.cacheId = userId;
@@ -40,25 +40,48 @@ namespace MyUsrn.Dnx.Core
 
         public void Load()
         {
-            lock (fileLock)
-            {
-                Debug.Assert(cache != null && cache.IsConnected(cacheId));
+            Debug.Assert(cache != null && cache.IsConnected(cacheId));
+
+            //lock (lockObject)
+            //{                
                 var userIdTokenCache = cache.StringGet(cacheId);
                 if (userIdTokenCache.HasValue)
                 {
                     //JsonConvert.DeserializeObject<AzRedisTokenCache>(userIdTokenCache);
                     //this.Deserialize(Encoding.UTF8.GetBytes(userIdTokenCache.ToString()));
                     this.Deserialize((byte[])userIdTokenCache);
-                }
+#if DEBUG
+                    var ttl = cache.KeyTimeToLive(this.cacheId);  // if null using default redis no expiry and lru
+#endif
             }
+            //}
         }
 
         public void Persist()
         {
+            Debug.Assert(cache != null && cache.IsConnected(cacheId));
+
             // reflect changes in the persistent store
-            //cache.StringSet(this.userId, JsonConvert.SerializeObject(this));
-            //cache.StringSet(this.cacheId, Encoding.UTF8.GetString(this.Serialize()));
-            cache.StringSet(this.cacheId, this.Serialize());
+            var cacheEntryExpiryDays = ConfigurationManager.AppSettings["CacheEntryExpiryDays"];
+            int timeSpanFromDays = default(int);
+            if (int.TryParse(cacheEntryExpiryDays, out timeSpanFromDays))
+            {
+                var expiry = TimeSpan.FromDays(timeSpanFromDays);
+                //cache.StringSet(this.cacheId, JsonConvert.SerializeObject(this), expiry);
+                //cache.StringSet(this.cacheId, Encoding.UTF8.GetString(this.Serialize()), expiry);
+                cache.StringSet(this.cacheId, this.Serialize(), expiry);
+            }
+            else
+            {
+                //cache.StringSet(this.cacheId, JsonConvert.SerializeObject(this));
+                //cache.StringSet(this.cacheId, Encoding.UTF8.GetString(this.Serialize()));
+                cache.StringSet(this.cacheId, this.Serialize());
+            }
+
+#if DEBUG
+            var ttl = cache.KeyTimeToLive(this.cacheId);  // if null using default redis no expiry and lru
+#endif
+
             // once the write operation took place, restore the HasStateChanged bit to false
             this.HasStateChanged = false;
         }
