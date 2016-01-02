@@ -53,3 +53,6 @@ where https://nuget.smbsrc.net/ is the feed url for symbolsource.org packages
 
 or localhost nuget package publishing, to vsts account feeed, is carried out using following command:  
 nuget push %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.symbols.nupkg -Source https://&lt;account&gt;.pkgs.visualstudio.com/DefaultCollection/_packaging/&lt;feed&gt;/nuget/v3/index.json -ApiKey VSTS  
+
+for redis cache learning and expermintation see [intro to redis](http://redis.io/topics/data-types-intro) using redis-cli.exe for windows found at 
+[MsOpenTech redis for windows](https://github.com/MSOpenTech/redis/) | releases | latest release | downloads | Redis-x64-3.0.500.zip  
