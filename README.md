@@ -3,8 +3,8 @@
 
 This repo contains an asp.net execution environment [dnx] core library that i bundle into a nuget package for easy consumption and updating.
 
-Using [nuget.org](http://nuget.org/packages/MyUsrn.Dnx.Core/) publicly accessible package feed versus a visual studio team services [vsts], pka visual studio online [vso] 
-everyone in account only accessible package feed.
+Using [nuget.org](http://nuget.org/packages/MyUsrn.Dnx.Core/) publicly accessible package feed versus a visual studio team services [vsts], pka visual studio 
+online [vso], everyone in account only accessible package feed.
 
 - - -
 
