@@ -57,9 +57,9 @@ localhost nuget package publishing is carried out using following command:
 nuget setApiKey <nuget.org/symbolsource.org apikey>  
 nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.nupkg [ -Source https://api.nuget.org/v3/index.json ]  
 ```
-where presence of symbols.nupkg will cause above to also execute 
+where presence of symbols.nupkg will cause the following to also execute:
 ```
-nuget push %temp%\packages\MyUsrn.Dnx.Core.&lt;version&gt;.symbols.nupkg [ -Source https://nuget.smbsrc.net/ ]  
+nuget push %temp%\packages\MyUsrn.Dnx.Core.<version>.symbols.nupkg [ -Source https://nuget.smbsrc.net/ ]  
 ```
 where https://nuget.smbsrc.net/ is the feed url for symbolsource.org packages  
 
