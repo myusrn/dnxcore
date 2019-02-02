@@ -12,8 +12,8 @@
     <iconUrl>https://avatars0.githubusercontent.com/u/3043446?v=3&amp;u=b63d6871b7b2a6ddf1262d72409ba6d31a03879c&amp;s=140</iconUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!--<description>$description$</description>-->
-    <description>A .Net X-platform [Dnx] Environment Core Library. See Project Site link for more details.</description>
-    <releaseNotes>Updated package description and including reference to new .net core runtime and msft authentication library [msal] based vs active directory authentication library [adal] based package.</releaseNotes>
+    <description>A .Net Execution Environment [Dnx] Core Library. See Project Site link for more details.</description>
+    <releaseNotes>Updated package title and description and added support for defining Redis based TokenCache entry expiration.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Dnx Route TokenCache</tags>
     <!--<dependencies>

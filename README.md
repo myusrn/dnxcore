@@ -1,7 +1,7 @@
 # dnxcore
 
 
-This repo contains a .net x-platform [dnx] core library that i bundle into a nuget package for easy consumption and updating. See [myusrn.dnc.core](https://nuget.org/packages/myusrn.dnc.core) package for a newer .net core runtime based offering.
+This repo contains a .net execution environment [dnx] core library that i bundle into a nuget package for easy consumption and updating. See the newer [myusrn.dnc.core](https://nuget.org/packages/myusrn.dnc.core) package for a .net core runtime based offering that targets the current microsoft authentication library [msal] instead of the outgoing azuread authentication library [adal] package with the TokenCache implementations.
 
 Using [nuget.org](http://nuget.org/packages/MyUsrn.Dnx.Core/) publicly accessible package feed versus a visual studio team services [vsts], pka visual studio online [vso], everyone in account only accessible package feed.
 
