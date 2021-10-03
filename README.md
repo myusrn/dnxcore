@@ -1,4 +1,4 @@
-# dnfcore
+# dnxcore
 
 
 This repo contains a .net framework [ windows only 4.8 and older ] core library that i bundle into a nuget package for easy consumption and updating. See the newer [myusrn.dnc.core](https://nuget.org/packages/myusrn.dnc.core) package for a .net core runtime based offering that targets the current microsoft authentication library [msal] instead of the outgoing azuread authentication library [adal] package with the TokenCache implementations.
